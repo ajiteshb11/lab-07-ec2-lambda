@@ -1,7 +1,3 @@
-# Lab 07: Knowledge check
-
-**Answer each question below it, in your own words, in one to three sentences.** Replace the `...` below **Your answer:** with your text. Questions 1 to 3 also ask for a screenshot, which goes into the folder `results/`.
-
 Questions 1 to 3 describe **hypothetical** problems: they may not have happened to you, but they are common, and you should know where to look when they do.
 
 ## 1. EC2: why can't I log in with `ssh`?
@@ -14,19 +10,21 @@ Suppose your instance is running and has a public IP address, but `ssh` cannot c
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
-...
+I went to EC2 > Security Groups > launch-wizard-1 > Inbound rules. This 
+page shows the allowed incoming connections, including SSH over TCP port 
+22 from my IP address.
 
-## 2. Lambda: why didn't my function run?
+ ## 2. Lambda: why didn't my function run?
 
 Suppose you uploaded a new book to your bucket, but several minutes later MongoDB still has no document for it. Maybe the function never started, because its trigger is missing or wrong.
 
 **Your task:** find the place in the AWS Console that shows what starts your Lambda function. Take a screenshot of it and save it as `results/lambda-trigger.png`.
 
 *Hint:* the class demo [A Lambda function in the AWS Console](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md), steps [5. Add the S3 trigger](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md#5-add-the-s3-trigger) and [8. Preview: the same steps with Chalice](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md#8-preview-the-same-steps-with-chalice).
-
-**Your answer:** Which path did you take in the console (service → page → tab)?
-
-...
+I went to Lambda → Event Functions → 
+book-analyzer-dev-analyze_new_book → Function overview. This page 
+shows the S3 trigger connected to my Lambda function, which runs when a 
+new .txt file is uploaded to my bucket.
 
 ## 3. Lambda: where do I find the error?
 
@@ -38,7 +36,10 @@ Suppose the function did start, but MongoDB still has no document for the book. 
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
-...
+I went to Lambda > Event Functions > book-analyzer-dev-analyze_new_book > 
+Monitor > View CloudWatch logs > Log streams. This showed the function's 
+execution logs, including errors and the successful message "pg74.txt: 
+74383 words.".
 
 ## 4. EC2 or Lambda: a backlog or new uploads?
 
@@ -53,5 +54,12 @@ For comparison, typical times in this lab:
 - **Lambda** (512 MB): about 2 seconds for one book, including about 1 second to start the function the first time (a cold start). The function runs, and costs, only while a book is analyzed.
 
 **Your answer:**
+**Case A:** I would use EC2 to process the backlog of 
+5,000 books because it can process many books in one batch efficiently, 
+without needing a separate Lambda invocation for each book.
+
+**Case B:** I would use Lambda for new uploads because it automatically 
+runs whenever a new book is uploaded to S3, so I don't need to keep an EC2 
+instance running. 
 
 ...
